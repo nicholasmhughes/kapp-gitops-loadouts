@@ -1,0 +1,18 @@
+---
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: aws-load-balancer-controller
+spec:
+  serviceAccountName: default
+  fetch:
+  - git:
+    url: "https://github.com/aws/eks-charts"
+      ref: origin/master
+      subPath: "stable/aws-load-balancer-controller/crds/crds.yaml"
+
+  template:
+  - ytt: {}
+
+  deploy:
+  - kapp: {}
