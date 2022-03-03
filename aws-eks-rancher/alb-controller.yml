@@ -7,7 +7,7 @@ spec:
   serviceAccountName: default
   fetch:
   - git:
-    url: "https://github.com/aws/eks-charts"
+      url: "https://github.com/aws/eks-charts"
       ref: origin/master
       subPath: "stable/aws-load-balancer-controller/crds/crds.yaml"
 
