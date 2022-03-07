@@ -7,7 +7,7 @@ metadata:
 data:
   values.yml: |
     clusterName: rancher
-    hostNetwork: false
+    keepTLSSecret: true
     image:
       repository: "602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-load-balancer-controller"
     enableShield: false
