@@ -10,7 +10,7 @@ spec:
   - git:
       url: "https://github.com/aws/eks-charts"
       ref: origin/master
-      subPath: "stable/aws-load-balancer-controller/crds/crds.yaml"
+      subPath: "stable/aws-load-balancer-controller/crds"
 
   template:
   - ytt:
