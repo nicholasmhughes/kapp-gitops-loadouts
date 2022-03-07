@@ -24,8 +24,7 @@ metadata:
   name: aws-load-balancer-controller-values
   namespace: kapp-controller
 data:
-  values.yaml: |
-    ---
+  values.yml: |
     clusterName: rancher
     hostNetwork: false
     image:
