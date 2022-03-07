@@ -32,8 +32,6 @@ spec:
       subPath: "stable/aws-load-balancer-controller"
 
   template:
-  - helmTemplate:
-      namespace: kube-system
   - ytt:
       ignoreUnknownComments: true
       inline:
@@ -48,6 +46,8 @@ spec:
             enableShield: false
             enableWaf: false
             enableWafv2: true
+  - helmTemplate:
+      namespace: kube-system
 
   deploy:
   - kapp: {}
