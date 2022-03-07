@@ -50,7 +50,8 @@ spec:
   - helmTemplate:
       namespace: kube-system
       valuesFrom:
-        - configMapRef: aws-load-balancer-controller-values
+        - configMapRef:
+            name: aws-load-balancer-controller-values
 
   deploy:
   - kapp: {}
