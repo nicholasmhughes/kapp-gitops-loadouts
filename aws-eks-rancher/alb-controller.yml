@@ -1,36 +1,4 @@
 ---
-apiVersion: kappctrl.k14s.io/v1alpha1
-kind: App
-metadata:
-  name: aws-load-balancer-controller-crds
-  namespace: kapp-controller
-spec:
-  serviceAccountName: cluster-admin-sa
-  fetch:
-  - git:
-      url: "https://github.com/aws/eks-charts"
-      ref: origin/master
-      subPath: "stable/aws-load-balancer-controller/crds"
-
-  template:
-  - ytt:
-      ignoreUnknownComments: true
-      inline:
-        paths:
-          kustomization.yaml: |
-            #@ load("@ytt:overlay", "overlay")
-            #@overlay/match by=overlay.subset({"kind":"Kustomization"})
-            ---
-            #@overlay/remove
-            apiVersion:
-            #@overlay/remove
-            kind:
-            #@overlay/remove
-            resources:
-
-  deploy:
-  - kapp: {}
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
