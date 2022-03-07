@@ -26,9 +26,9 @@ spec:
   serviceAccountName: cluster-admin-sa
   fetch:
   - git:
-      url: "https://github.com/bitnami/charts"
-      ref: origin/master
-      subPath: "bitnami/external-dns"
+      url: "https://github.com/kubernetes-sigs/external-dns"
+      ref: origin/external-dns-helm-chart-1.7.1
+      subPath: "charts/external-dns"
 
   template:
   - helmTemplate:
