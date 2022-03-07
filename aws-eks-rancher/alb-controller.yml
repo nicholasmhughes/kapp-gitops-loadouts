@@ -18,7 +18,15 @@ spec:
       inline:
         paths:
           kustomization.yaml: |
-            # empty
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"kind":"Kustomization"})
+            ---
+            #@overlay/remove
+            apiVersion:
+            #@overlay/remove
+            kind:
+            #@overlay/remove
+            resources:
 
   deploy:
   - kapp: {}
