@@ -2,7 +2,8 @@
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
-  name: aws-load-balancer-controller
+  name: aws-load-balancer-controller-crds
+  namespace: kapp-controller
 spec:
   serviceAccountName: cluster-admin-sa
   fetch:
@@ -13,6 +14,40 @@ spec:
 
   template:
   - ytt: {}
+
+  deploy:
+  - kapp: {}
+---
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: aws-load-balancer-controller
+  namespace: kapp-controller
+spec:
+  serviceAccountName: cluster-admin-sa
+  fetch:
+  - git:
+      url: "https://github.com/aws/eks-charts"
+      ref: origin/master
+      subPath: "stable/aws-load-balancer-controller"
+
+  template:
+  - helmTemplate:
+      namespace: kube-system
+  - ytt:
+      ignoreUnknownComments: true
+      inline:
+        paths:
+          values.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            ---
+            clusterName: rancher
+            hostNetwork: false
+            image:
+              repository: "602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-load-balancer-controller"
+            enableShield: false
+            enableWaf: false
+            enableWafv2: true
 
   deploy:
   - kapp: {}
