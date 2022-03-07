@@ -13,7 +13,12 @@ spec:
       subPath: "stable/aws-load-balancer-controller/crds/crds.yaml"
 
   template:
-  - ytt: {}
+  - ytt:
+      ignoreUnknownComments: true
+      inline:
+        paths:
+          kustomization.yaml: |
+            # empty
 
   deploy:
   - kapp: {}
