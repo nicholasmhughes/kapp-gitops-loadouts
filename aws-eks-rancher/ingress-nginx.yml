@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-nginx-values
+  namespace: kapp-controller
+data:
+  values.yml: |
+    controller:
+      extraArgs:
+        enable-ssl-passthrough: "true"
+      hostNetwork: false
+      service:
+        externalTrafficPolicy: Local
+        annotations:
+          service.beta.kubernetes.io/aws-load-balancer-type: nlb-ip
+          service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+          service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+          service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx
+---
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: ingress-nginx
+  namespace: kapp-controller
+spec:
+  serviceAccountName: cluster-admin-sa
+  fetch:
+  - git:
+      url: "https://github.com/kubernetes/ingress-nginx"
+      ref: origin/helm-chart-4.0.18
+      subPath: "charts/ingress-nginx"
+
+  template:
+  - helmTemplate:
+      namespace: ingress-nginx
+      valuesFrom:
+        - configMapRef:
+            name: ingress-nginx-values
+
+  deploy:
+  - kapp: {}

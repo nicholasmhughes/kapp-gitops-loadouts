@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: external-dns-values
+  namespace: kapp-controller
+data:
+  values.yml: |
+    provider: aws
+    policy: sync
+    txtOwnerId: rancher
+    domainFilters:
+      - asb1.eitr.dev
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: external-dns
+---
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: external-dns
+  namespace: kapp-controller
+spec:
+  serviceAccountName: cluster-admin-sa
+  fetch:
+  - git:
+      url: "https://github.com/bitnami/charts"
+      ref: origin/master
+      subPath: "bitnami/external-dns"
+
+  template:
+  - helmTemplate:
+      namespace: external-dns
+      valuesFrom:
+        - configMapRef:
+            name: external-dns-values
+
+  deploy:
+  - kapp: {}
