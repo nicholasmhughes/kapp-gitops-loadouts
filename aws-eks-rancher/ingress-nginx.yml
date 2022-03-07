@@ -33,7 +33,7 @@ spec:
   fetch:
   - git:
       url: "https://github.com/kubernetes/ingress-nginx"
-      ref: origin/helm-chart-4.0.18
+      ref: refs/tags/helm-chart-4.0.18
       subPath: "charts/ingress-nginx"
 
   template:

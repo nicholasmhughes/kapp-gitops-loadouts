@@ -27,7 +27,7 @@ spec:
   fetch:
   - git:
       url: "https://github.com/kubernetes-sigs/external-dns"
-      ref: origin/external-dns-helm-chart-1.7.1
+      ref: refs/tags/external-dns-helm-chart-1.7.1
       subPath: "charts/external-dns"
 
   template:
