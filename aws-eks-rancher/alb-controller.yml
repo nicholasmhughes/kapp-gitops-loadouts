@@ -24,13 +24,15 @@ metadata:
   name: aws-load-balancer-controller-values
   namespace: kapp-controller
 data:
-  clusterName: rancher
-  hostNetwork: false
-  image:
-    repository: "602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-load-balancer-controller"
-  enableShield: false
-  enableWaf: false
-  enableWafv2: true
+  values.yaml: |
+    ---
+    clusterName: rancher
+    hostNetwork: false
+    image:
+      repository: "602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-load-balancer-controller"
+    enableShield: false
+    enableWaf: false
+    enableWafv2: true
 ---
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
