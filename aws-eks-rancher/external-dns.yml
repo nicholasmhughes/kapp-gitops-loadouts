@@ -1,3 +1,4 @@
+#@ load("@ytt:data", "data")
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -5,12 +6,13 @@ metadata:
   name: external-dns-values
   namespace: kapp-controller
 data:
+  #@yaml/text-templated-strings
   values.yml: |
     provider: aws
     policy: sync
-    txtOwnerId: rancher
+    txtOwnerId: (@= data.values.cluster @)
     domainFilters:
-      - asb1.eitr.dev
+      - (@= data.values.domain @)
 ---
 apiVersion: v1
 kind: Namespace

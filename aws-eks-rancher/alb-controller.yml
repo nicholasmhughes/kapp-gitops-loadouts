@@ -1,3 +1,4 @@
+#@ load("@ytt:data", "data")
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -5,11 +6,12 @@ metadata:
   name: aws-load-balancer-controller-values
   namespace: kapp-controller
 data:
+  #@yaml/text-templated-strings
   values.yml: |
-    clusterName: rancher
+    clusterName: (@= data.values.cluster @)
     keepTLSSecret: true
     image:
-      repository: "602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-load-balancer-controller"
+      repository: "602401143452.dkr.ecr.(@= data.values.region @).amazonaws.com/amazon/aws-load-balancer-controller"
     enableShield: false
     enableWaf: false
     enableWafv2: true
