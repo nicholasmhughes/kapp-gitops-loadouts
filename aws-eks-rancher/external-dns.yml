@@ -38,4 +38,5 @@ spec:
             name: external-dns-values
 
   deploy:
-  - kapp: {}
+  - kapp:
+      intoNs: external-dns
