@@ -30,35 +30,9 @@ spec:
   serviceAccountName: cluster-admin-sa
   fetch:
   - git:
-      url: "https://github.com/rancher/rancher"
-      ref: refs/tags/v2.6.3
+      url: "https://github.com/nicholasmhughes/rancher"
+      ref: origin/do-not-merge/release/v2.6
       subPath: "chart"
-
-  template:
-    - ytt:
-        ignoreUnknownComments: true
-        fileMarks:
-          - "templates/*:exclude=true"
-          - "Chart.yaml:path=Chart.bak"
-        inline:
-          paths:
-            Chart.yaml: |
-              apiVersion: v2
-              name: rancher
-              description: Install Rancher Server to manage Kubernetes clusters across providers.
-              version: 2.6.3
-              appVersion: v2.6.3
-              kubeVersion: < 1.24.0-0
-              home: https://rancher.com
-              icon: https://github.com/rancher/ui/blob/master/public/assets/images/logos/welcome-cow.svg
-              keywords:
-                - rancher
-              sources:
-                - https://github.com/rancher/rancher
-                - https://github.com/rancher/server-chart
-              maintainers:
-                - name: Rancher Labs
-                  email: charts@rancher.com
 
     - helmTemplate:
         namespace: cattle-system
