@@ -29,23 +29,41 @@ metadata:
 spec:
   serviceAccountName: cluster-admin-sa
   fetch:
-  - helmChart:
-      name: "rancher"
-      version: "2.6.3"
-      repository:
-        url: "https://releases.rancher.com/server-charts/latest"
+  - git:
+      url: "https://github.com/rancher/rancher"
+      ref: refs/tags/v2.6.3
+      subPath: "chart"
+    #- helmChart:
+    #    name: "rancher"
+    #    version: "2.6.3"
+    #    repository:
+    #      url: "https://releases.rancher.com/server-charts/latest"
 
   template:
-  - ytt:
-      ignoreUnknownComments: true
-      inline:
-        paths:
-          Chart.yaml: |
-            #@ load("@ytt:overlay", "overlay")
-            #@overlay/match by=overlay.subset({"name":"rancher"})
-            ---
-            #@overlay/replace
-            apiVersion: "v2"
+    - ytt:
+        ignoreUnknownComments: true
+        inline:
+          paths:
+            Chart.yaml: |
+              #@ load("@ytt:overlay", "overlay")
+              #@overlay/match by=overlay.subset({"name":"rancher"})
+              ---
+              #@overlay/replace
+              apiVersion: "v2"
+              #@overlay/replace
+              appVersion: "v2.6.3"
+              #@overlay/replace
+              version: "2.6.3"
+    #- ytt:
+    #    ignoreUnknownComments: true
+    #    inline:
+    #      paths:
+    #        Chart.yaml: |
+    #          #@ load("@ytt:overlay", "overlay")
+    #          #@overlay/match by=overlay.subset({"name":"rancher"})
+    #          ---
+    #          #@overlay/replace
+    #          apiVersion: "v2"
 
   - helmTemplate:
       namespace: cattle-system
