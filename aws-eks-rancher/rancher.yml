@@ -1,0 +1,45 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rancher-values
+  namespace: kapp-controller
+data:
+  #@yaml/text-templated-strings
+  values.yml: |
+    hostname: "(@= data.values.cluster @).(@= data.values.domain @)"
+    privateCA: "false"
+    ingress:
+      extraAnnotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      tls:
+        source: rancher
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cattle-system
+---
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: rancher
+  namespace: kapp-controller
+spec:
+  serviceAccountName: cluster-admin-sa
+  fetch:
+  - git:
+      url: "https://github.com/rancher/rancher"
+      ref: refs/tags/v2.6.3
+      subPath: "chart"
+
+  template:
+  - helmTemplate:
+      namespace: cattle-system
+      valuesFrom:
+        - configMapRef:
+            name: rancher-values
+
+  deploy:
+  - kapp: {}
