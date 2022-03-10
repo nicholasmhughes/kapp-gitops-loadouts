@@ -31,7 +31,7 @@ spec:
   fetch:
   - helmChart:
       name: "rancher-latest/rancher"
-      version: "2.6.3"
+      version: "2.6"
       repository:
         url: "https://releases.rancher.com/server-charts/latest"
 
