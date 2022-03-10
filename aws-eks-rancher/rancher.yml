@@ -38,6 +38,8 @@ spec:
   template:
     - ytt:
         ignoreUnknownComments: true
+        paths:
+          - Chart.yaml
         inline:
           paths:
             Chart.yaml: |
@@ -46,14 +48,12 @@ spec:
               ---
               #@overlay/replace
               apiVersion: "v2"
-        paths:
-          - Chart.yaml
 
-  - helmTemplate:
-      namespace: cattle-system
-      valuesFrom:
-        - configMapRef:
-            name: rancher-values
+    - helmTemplate:
+        namespace: cattle-system
+        valuesFrom:
+          - configMapRef:
+              name: rancher-values
 
   deploy:
   - kapp: {}
