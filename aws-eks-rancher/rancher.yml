@@ -36,6 +36,17 @@ spec:
         url: "https://releases.rancher.com/server-charts/latest"
 
   template:
+  - ytt:
+      ignoreUnknownComments: true
+      inline:
+        paths:
+          Chart.yaml: |
+            #@ load("@ytt:overlay", "overlay")
+            #@overlay/match by=overlay.subset({"name":"rancher"})
+            ---
+            #@overlay/replace
+            apiVersion: "v2"
+
   - helmTemplate:
       namespace: cattle-system
       valuesFrom:
