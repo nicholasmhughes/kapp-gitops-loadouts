@@ -34,6 +34,7 @@ spec:
       ref: origin/do-not-merge/release/v2.6
       subPath: "chart"
 
+  template:
     - helmTemplate:
         namespace: cattle-system
         valuesFrom:
