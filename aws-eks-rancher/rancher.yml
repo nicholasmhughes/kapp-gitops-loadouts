@@ -38,8 +38,8 @@ spec:
   template:
     - ytt:
         ignoreUnknownComments: true
-        paths:
-          - Chart.yaml
+        fileMarks:
+          - templates/*:exclude=true
         inline:
           paths:
             Chart.yaml: |
