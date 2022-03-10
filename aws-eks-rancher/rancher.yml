@@ -29,25 +29,36 @@ metadata:
 spec:
   serviceAccountName: cluster-admin-sa
   fetch:
-  - helmChart:
-      name: "rancher"
-      version: "2.6.3"
-      repository:
-        url: "https://releases.rancher.com/server-charts/latest"
+  - git:
+      url: "https://github.com/rancher/rancher"
+      ref: refs/tags/v2.6.3
+      subPath: "chart"
 
   template:
-    #- ytt:
-    #    ignoreUnknownComments: true
-    #    fileMarks:
-    #      - templates/*:exclude=true
-    #    inline:
-    #      paths:
-    #        Chart.yaml: |
-    #          #@ load("@ytt:overlay", "overlay")
-    #          #@overlay/match by=overlay.subset({"name":"rancher"})
-    #          ---
-    #          #@overlay/replace
-    #          apiVersion: "v2"
+    - ytt:
+        ignoreUnknownComments: true
+        fileMarks:
+          - "templates/*:exclude=true"
+          - "Chart.yaml:path=Chart.bak"
+        inline:
+          paths:
+            Chart.yaml: |
+              apiVersion: v2
+              name: rancher
+              description: Install Rancher Server to manage Kubernetes clusters across providers.
+              version: 2.6.3
+              appVersion: v2.6.3
+              kubeVersion: < 1.24.0-0
+              home: https://rancher.com
+              icon: https://github.com/rancher/ui/blob/master/public/assets/images/logos/welcome-cow.svg
+              keywords:
+                - rancher
+              sources:
+                - https://github.com/rancher/rancher
+                - https://github.com/rancher/server-chart
+              maintainers:
+                - name: Rancher Labs
+                  email: charts@rancher.com
 
     - helmTemplate:
         namespace: cattle-system
