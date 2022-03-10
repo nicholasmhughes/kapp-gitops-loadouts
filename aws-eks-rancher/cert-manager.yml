@@ -1,0 +1,15 @@
+---
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: cert-manager
+  namespace: kapp-controller
+spec:
+  serviceAccountName: cluster-admin-sa
+  fetch:
+  - http:
+      url: "https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml"
+      sha256: "adc8dceb6d5bb6c0e6abf7075f303622198491af5c48ae12522800472f23f702"
+
+  deploy:
+  - kapp: {}

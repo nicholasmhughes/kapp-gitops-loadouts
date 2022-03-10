@@ -42,4 +42,5 @@ spec:
               name: rancher-values
 
   deploy:
-  - kapp: {}
+  - kapp:
+      intoNs: cattle-system
