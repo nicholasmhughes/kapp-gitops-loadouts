@@ -9,7 +9,7 @@ data:
   #@yaml/text-templated-strings
   values.yml: |
     hostname: "(@= data.values.cluster @).(@= data.values.domain @)"
-    privateCA: "false"
+    privateCA: false
     ingress:
       extraAnnotations:
         nginx.ingress.kubernetes.io/proxy-body-size: "0"
