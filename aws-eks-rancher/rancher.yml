@@ -9,12 +9,12 @@ data:
   #@yaml/text-templated-strings
   values.yml: |
     hostname: "(@= data.values.cluster @).(@= data.values.domain @)"
-    privateCA: false
+    privateCA: (@= str(data.values.rancher_private_ca).lower() @)
     ingress:
       extraAnnotations:
         nginx.ingress.kubernetes.io/proxy-body-size: "0"
       tls:
-        source: rancher
+        source: (@= data.values.rancher_tls_source @)
 ---
 apiVersion: v1
 kind: Namespace
